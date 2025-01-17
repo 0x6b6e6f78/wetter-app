@@ -5,21 +5,168 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WetterApp"
         mc:Ignorable="d"
-        Title="WetterApp" Height="176" Width="339">
-    <Grid Margin="0,0,10,0">
-        <Label Content="Stadt eingeben:" Margin="0,0,133,55" RenderTransformOrigin="0.5,0.5">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
-        <TextBox x:Name="MyTextBox" Width="309" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,29,0,0" KeyDown="TextUpdated" />
-        <ComboBox x:Name="MyComboBox" Width="309" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,59,0,0" SelectionChanged="MyComboBox_SelectionChanged" IsEnabled="False" />
+        Title="WetterApp" Height="600" Width="400"
+        ResizeMode="CanMinimize">
+    <Window.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Color="#4A90E2" Offset="0"/>
+            <GradientStop Color="#6DBDD6" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <StackPanel Margin="20">
+            <!-- Search Controls -->
+            <Label x:Name="inputLabel" Foreground="White" FontSize="16">Stadt eingeben:</Label>
+            <TextBox x:Name="MyTextBox" 
+                    Height="25" 
+                    Margin="0,0,0,10"
+                    KeyDown="TextUpdated"
+                    />
 
-        <Label x:Name="MyLabel" Content="&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,87,0,0"/>
+            <ComboBox x:Name="MyComboBox" 
+                     Height="25" 
+                     Margin="0,0,0,20"
+                     SelectionChanged="MyComboBox_SelectionChanged" 
+                     IsEnabled="False" />
+
+            <!-- Weather Display -->
+            <Label x:Name="MyLabel" 
+                   Visibility="Collapsed"
+                   Foreground="White"/>
+
+            <!-- Location and Date -->
+            <TextBlock x:Name="LocationText" 
+                      Text="London, UK" 
+                      FontSize="32"
+                      FontWeight="Bold"
+                      Margin="0,0,0,5"
+                      Foreground="White"/>
+            <TextBlock x:Name="DateText"
+                      Text="Monday 29 August" 
+                      FontSize="20" 
+                      Foreground="White"
+                      Margin="0,0,0,20"/>
+
+            <!-- Current Weather -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Ellipse Width="100" 
+                         Height="100" 
+                         Stroke="White" 
+                         StrokeThickness="2"
+                         HorizontalAlignment="Left"/>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="CurrentTempText"
+                             Text="21°C" 
+                             FontSize="48"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock x:Name="WeatherDescText"
+                             Text="Mostly sunny" 
+                             FontSize="20" 
+                             Foreground="White"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- Weather Details -->
+            <Grid Margin="0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock x:Name="HighTempText"
+                             Text="23°" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock Text="High" 
+                             Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="WindText"
+                             Text="7mph" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock Text="Wind" 
+                             Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock x:Name="SunriseText"
+                             Text="05:27" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock Text="Sunrise" 
+                             Foreground="White"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Margin="0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock x:Name="LowTempText"
+                             Text="14°" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock Text="Low" 
+                             Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1">
+                    <TextBlock x:Name="RainText"
+                             Text="0%" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock Text="Rain" 
+                             Foreground="White"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="2">
+                    <TextBlock x:Name="SunsetText"
+                             Text="20:57" 
+                             FontSize="24"
+                             FontWeight="Bold"
+                             Foreground="White"/>
+                    <TextBlock Text="Sunset" 
+                             Foreground="White"/>
+                </StackPanel>
+            </Grid>
+
+            <!-- 5 Day Forecast -->
+            <!--<TextBlock Text="Next 5 days" 
+                      FontSize="20" 
+                      Margin="0,20,0,10"
+                      Foreground="White"/>
+
+            <ItemsControl x:Name="ForecastList">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.Items>
+                    Forecast days 
+                    This will be populated from code
+                </ItemsControl.Items>
+            </ItemsControl>-->
+        </StackPanel>
     </Grid>
 </Window>

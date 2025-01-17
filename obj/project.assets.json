@@ -8,19 +8,19 @@
     "net8.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\cel-attireh\\.nuget\\packages\\": {}
+    "C:\\Users\\alexandergeisler\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cel-attireh\\source\\repos\\WetterApp\\WetterApp.csproj",
+      "projectUniqueName": "C:\\Users\\alexandergeisler\\Source\\Repos\\wetter-app\\WetterApp.csproj",
       "projectName": "WetterApp",
-      "projectPath": "C:\\Users\\cel-attireh\\source\\repos\\WetterApp\\WetterApp.csproj",
-      "packagesPath": "C:\\Users\\cel-attireh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cel-attireh\\source\\repos\\WetterApp\\obj\\",
+      "projectPath": "C:\\Users\\alexandergeisler\\Source\\Repos\\wetter-app\\WetterApp.csproj",
+      "packagesPath": "C:\\Users\\alexandergeisler\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alexandergeisler\\Source\\Repos\\wetter-app\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\cel-attireh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alexandergeisler\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
