@@ -1,17 +1,8 @@
 ﻿using System.Net.Http;
-using System.Reflection.Emit;
-using System.Security.Policy;
-using System.Text;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace WetterApp
 {
@@ -23,7 +14,6 @@ namespace WetterApp
         public MainWindow()
         {
             InitializeComponent();
-
             requestLoop();
         }
 
@@ -80,6 +70,14 @@ namespace WetterApp
 
         public async void GetCity(string City)
         {
+            if (City == null || City.Length == 0)
+            {
+                MyComboBox.IsEnabled = false;
+                MyComboBox.ItemsSource = null;
+                MyComboBox.SelectedIndex = 0;
+                MyComboBox.DisplayMemberPath = "displayName";
+                return;
+            }
             string url = "http://api.openweathermap.org/geo/1.0/direct?limit=5&q=" + City + "&appid=" + apiKey;
             try
             {
@@ -99,6 +97,7 @@ namespace WetterApp
                     MyComboBox.ItemsSource = result;
                     MyComboBox.SelectedIndex = 0;
                     MyComboBox.DisplayMemberPath = "displayName";
+                    MyComboBox.IsEnabled = true;
                 }
             }
             catch (Exception ex)
@@ -109,6 +108,10 @@ namespace WetterApp
 
         private void MyComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (MyComboBox.SelectedItem == null)
+            {
+                MyLabel.Content = string.Empty;
+            }
             if (MyComboBox.SelectedItem is Location selectedItem)
             {
                 PerformHttpsRequest(selectedItem.lat, selectedItem.lon, MyLabel);

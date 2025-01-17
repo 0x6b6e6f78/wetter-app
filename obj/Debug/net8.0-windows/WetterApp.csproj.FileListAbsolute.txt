@@ -18,3 +18,4 @@ C:\Users\cel-attireh\source\repos\WetterApp\obj\Debug\net8.0-windows\refint\Wett
 C:\Users\cel-attireh\source\repos\WetterApp\obj\Debug\net8.0-windows\WetterApp.pdb
 C:\Users\cel-attireh\source\repos\WetterApp\obj\Debug\net8.0-windows\WetterApp.genruntimeconfig.cache
 C:\Users\cel-attireh\source\repos\WetterApp\obj\Debug\net8.0-windows\ref\WetterApp.dll
+C:\Users\cel-attireh\source\repos\WetterApp\obj\Debug\net8.0-windows\WetterApp.sourcelink.json

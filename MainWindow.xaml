@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="WetterApp" Height="176" Width="339">
     <Grid Margin="0,0,10,0">
-        <Label Content="Stadt eingeben:" Margin="10,0,567,405" RenderTransformOrigin="0.5,0.5">
+        <Label Content="Stadt eingeben:" Margin="0,0,133,55" RenderTransformOrigin="0.5,0.5">
             <Label.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform ScaleY="1"/>
@@ -18,7 +18,7 @@
             </Label.RenderTransform>
         </Label>
         <TextBox x:Name="MyTextBox" Width="309" Height="25" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,29,0,0" KeyDown="TextUpdated" />
-        <ComboBox x:Name="MyComboBox" Width="309" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,59,0,0" SelectionChanged="MyComboBox_SelectionChanged" />
+        <ComboBox x:Name="MyComboBox" Width="309" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,59,0,0" SelectionChanged="MyComboBox_SelectionChanged" IsEnabled="False" />
 
         <Label x:Name="MyLabel" Content="&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,87,0,0"/>
     </Grid>
