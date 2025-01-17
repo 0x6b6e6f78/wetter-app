@@ -37,20 +37,33 @@ namespace WetterApp
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
-
                     response.EnsureSuccessStatusCode();
 
                     string responseData = await response.Content.ReadAsStringAsync();
 
                     var weatherData = JsonSerializer.Deserialize<WeatherData>(responseData);
-                    if (weatherData == null)
-                    {
-                        return;
-                    }
+                    if (weatherData == null) return;
 
-                    string info = ($"Ort: {weatherData.Name}, Temperatur: {weatherData.Main.Temp - 273.15:F2}°C") + "\n" +
-                        ($"Wetter: {weatherData.Weather[0].Description}");
-                    label.Content = info;
+                    // Update UI elements
+                    LocationText.Text = $"{weatherData.Name}, {weatherData.Sys.Country}";
+                    DateText.Text = DateTime.Now.ToString("dddd dd MMMM");
+                    CurrentTempText.Text = $"{(weatherData.Main.Temp - 273.15):F0}°C";
+                    WeatherDescText.Text = weatherData.Weather[0].Description;
+                    HighTempText.Text = $"{(weatherData.Main.Temp_Max - 273.15):F0}°C";
+                    LowTempText.Text = $"{(weatherData.Main.Temp_Min - 273.15):F0}°C";
+                    WindText.Text = $"{(weatherData.Wind.Speed * 2.237):F0}mph";
+
+                    // Convert Unix timestamp to local time
+                    var sunriseTime = DateTimeOffset.FromUnixTimeSeconds(weatherData.Sys.Sunrise)
+                        .LocalDateTime;
+                    var sunsetTime = DateTimeOffset.FromUnixTimeSeconds(weatherData.Sys.Sunset)
+                        .LocalDateTime;
+
+                    SunriseText.Text = sunriseTime.ToString("HH:mm");
+                    SunsetText.Text = sunsetTime.ToString("HH:mm");
+
+                    // Rain percentage (if available)
+                    RainText.Text = weatherData.Rain?.OneHour.ToString("F0") + "%" ?? "0%";
                 }
             }
             catch (Exception ex)
