@@ -3,6 +3,9 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Markup;
+using System.Windows.Media.Imaging;
+using static System.Net.WebRequestMethods;
 
 namespace WetterApp
 {
@@ -24,16 +27,19 @@ namespace WetterApp
                 if (MyComboBox.SelectedItem is Location selectedItem)
                 {
                     PerformHttpsRequest(selectedItem.lat, selectedItem.lon, MyLabel);
+                    FetchForecastData(selectedItem.lat, selectedItem.lon);
                 }
                 await Task.Delay(8000);
             }
         }
 
+
+
         private async void PerformHttpsRequest(double lat, double lon, System.Windows.Controls.Label label)
         {
             try
             {
-                string url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+                string url = $"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={apiKey}&lang=de";
                 using (HttpClient client = new HttpClient())
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
@@ -42,9 +48,9 @@ namespace WetterApp
                     string responseData = await response.Content.ReadAsStringAsync();
 
                     var weatherData = JsonSerializer.Deserialize<WeatherData>(responseData);
+               
                     if (weatherData == null) return;
 
-                    // Update UI elements
                     LocationText.Text = $"{weatherData.Name}, {weatherData.Sys.Country}";
                     DateText.Text = DateTime.Now.ToString("dddd dd MMMM");
                     CurrentTempText.Text = $"{(weatherData.Main.Temp - 273.15):F0}°C";
@@ -53,17 +59,18 @@ namespace WetterApp
                     LowTempText.Text = $"{(weatherData.Main.Temp_Min - 273.15):F0}°C";
                     WindText.Text = $"{(weatherData.Wind.Speed * 2.237):F0}mph";
 
-                    // Convert Unix timestamp to local time
-                    var sunriseTime = DateTimeOffset.FromUnixTimeSeconds(weatherData.Sys.Sunrise)
-                        .LocalDateTime;
-                    var sunsetTime = DateTimeOffset.FromUnixTimeSeconds(weatherData.Sys.Sunset)
-                        .LocalDateTime;
+                    var sunriseTime = DateTimeOffset.FromUnixTimeSeconds(weatherData.Sys.Sunrise).LocalDateTime;
+                    var sunsetTime = DateTimeOffset.FromUnixTimeSeconds(weatherData.Sys.Sunset).LocalDateTime;
 
                     SunriseText.Text = sunriseTime.ToString("HH:mm");
                     SunsetText.Text = sunsetTime.ToString("HH:mm");
 
-                    // Rain percentage (if available)
                     RainText.Text = weatherData.Rain?.OneHour.ToString("F0") + "%" ?? "0%";
+
+                    var IconUrl = $"https://openweathermap.org/img/wn/{weatherData.Weather[0].Icon}.png";
+
+                    WeatherIcon.Source = new BitmapImage(new Uri(IconUrl));
+
                 }
             }
             catch (Exception ex)
@@ -91,7 +98,7 @@ namespace WetterApp
                 MyComboBox.DisplayMemberPath = "displayName";
                 return;
             }
-            string url = "http://api.openweathermap.org/geo/1.0/direct?limit=5&q=" + City + "&appid=" + apiKey;
+            string url = $"http://api.openweathermap.org/geo/1.0/direct?limit=5&q={City}&appid={apiKey}&lang=de";
             try
             {
                 using (HttpClient client = new HttpClient())
@@ -128,6 +135,43 @@ namespace WetterApp
             if (MyComboBox.SelectedItem is Location selectedItem)
             {
                 PerformHttpsRequest(selectedItem.lat, selectedItem.lon, MyLabel);
+            }
+        }
+
+        private async void FetchForecastData(double lat, double lon)
+        {
+            try
+            {
+                string url = $"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={apiKey}&lang=de&units=metric";
+                using (HttpClient client = new HttpClient())
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode();
+
+                    string responseData = await response.Content.ReadAsStringAsync();
+                    var forecastData = JsonSerializer.Deserialize<ForecastData>(responseData);
+
+                    if (forecastData == null || forecastData.List == null) return;
+
+                    var groupedData = forecastData.List
+                        .Where(item => DateTime.Parse(item.DtTxt).Date > DateTime.Today)
+                        .GroupBy(item => DateTime.Parse(item.DtTxt).Date)
+                        .Select(group => new
+                        {
+                            Date = group.Key.ToString("dddd"),
+                            MaxTemp = $"{(group.Max(item => item.Main.Temp_Max)):F0}",
+                            MinTemp = $"{(group.Min(item => item.Main.Temp_Min)):F0}",
+                            Description = group.First().Weather[0].Description,
+                            IconUrl = $"https://openweathermap.org/img/wn/{group.First().Weather[0].Icon}.png"
+                        })
+                        .ToList();
+
+                    ForecastList.ItemsSource = groupedData;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Fehler beim Abrufen der Wettervorhersage: {ex.Message}");
             }
         }
     }
