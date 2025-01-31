@@ -29,7 +29,7 @@ namespace WetterApp
                     PerformHttpsRequest(selectedItem.lat, selectedItem.lon, MyLabel);
                     FetchForecastData(selectedItem.lat, selectedItem.lon);
                 }
-                await Task.Delay(300000);
+                await Task.Delay(8000);
             }
         }
 
