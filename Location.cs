@@ -153,4 +153,32 @@ namespace WetterApp
         public int Cod { get; set; }
     }
 
+    public class ForecastItem
+    {
+        [JsonPropertyName("dt")]
+        public long Dt { get; set; }
+
+        [JsonPropertyName("main")]
+        public Main Main { get; set; }
+
+        [JsonPropertyName("weather")]
+        public List<Weather> Weather { get; set; }
+
+        [JsonPropertyName("clouds")]
+        public Clouds Clouds { get; set; }
+
+        [JsonPropertyName("wind")]
+        public Wind Wind { get; set; }
+
+        [JsonPropertyName("dt_txt")]
+        public string DtTxt { get; set; }
+    }
+
+    public class ForecastData
+    {
+        [JsonPropertyName("list")]
+        public List<ForecastItem> List { get; set; }
+    }
+
+
 }

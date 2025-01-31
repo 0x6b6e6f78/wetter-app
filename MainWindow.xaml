@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WetterApp"
         mc:Ignorable="d"
-        Title="WetterApp" Height="600" Width="400"
+        Title="WetterApp" Height="860" Width="550"
         ResizeMode="CanMinimize">
     <Window.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -20,19 +20,18 @@
             <TextBox x:Name="MyTextBox" 
                     Height="25" 
                     Margin="0,0,0,10"
-                    KeyDown="TextUpdated"
-                    />
+                    KeyDown="TextUpdated"/>
 
             <ComboBox x:Name="MyComboBox" 
                      Height="25" 
                      Margin="0,0,0,20"
                      SelectionChanged="MyComboBox_SelectionChanged" 
-                     IsEnabled="False" />
+                     IsEnabled="False"/>
 
             <!-- Weather Display -->
             <Label x:Name="MyLabel" 
-                   Visibility="Collapsed"
-                   Foreground="White"/>
+                    Visibility="Collapsed"
+                    Foreground="White"/>
 
             <!-- Location and Date -->
             <TextBlock x:Name="LocationText" 
@@ -54,27 +53,31 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <Ellipse Width="100" 
-                         Height="100" 
-                         Stroke="White" 
-                         StrokeThickness="2"
-                         HorizontalAlignment="Left"/>
+                <Image x:Name="WeatherIcon"
+                        Width="100" 
+                        Height="100"
+                        Stretch="UniformToFill"
+                        HorizontalAlignment="Left"/>
 
                 <StackPanel Grid.Column="1">
                     <TextBlock x:Name="CurrentTempText"
                              Text="21°C" 
-                             FontSize="48"
+                             FontSize="64"
                              FontWeight="Bold"
-                             Foreground="White"/>
+                             Foreground="White"
+                             HorizontalAlignment="Right"  />
                     <TextBlock x:Name="WeatherDescText"
                              Text="Mostly sunny" 
-                             FontSize="20" 
-                             Foreground="White"/>
+                             FontSize="24" 
+                             Foreground="White"
+                             Opacity="0.5"/>
                 </StackPanel>
             </Grid>
 
+            <Border BorderBrush="White" BorderThickness="0,1,0,0" Margin="0, 25, 0, 25"/>
+
             <!-- Weather Details -->
-            <Grid Margin="0,20">
+            <Grid  Margin="30,0,30,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -85,88 +88,129 @@
                     <TextBlock x:Name="HighTempText"
                              Text="23°" 
                              FontSize="24"
-                             FontWeight="Bold"
                              Foreground="White"/>
-                    <TextBlock Text="High" 
-                             Foreground="White"/>
+                    <TextBlock Text="Hoch" 
+                             Foreground="White"
+                             FontSize="24"
+                             Opacity="0.5"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
                     <TextBlock x:Name="WindText"
                              Text="7mph" 
                              FontSize="24"
-                             FontWeight="Bold"
                              Foreground="White"/>
                     <TextBlock Text="Wind" 
-                             Foreground="White"/>
+                             Foreground="White"
+                             FontSize="24"
+                             Opacity="0.5"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2">
+                <StackPanel Grid.Column="2" >
                     <TextBlock x:Name="SunriseText"
                              Text="05:27" 
                              FontSize="24"
-                             FontWeight="Bold"
                              Foreground="White"/>
                     <TextBlock Text="Sunrise" 
-                             Foreground="White"/>
+                             Foreground="White"
+                             FontSize="24"
+                             Opacity="0.5"/>
                 </StackPanel>
             </Grid>
 
-            <Grid Margin="0,10">
+            <Grid Margin="30,10,30,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
+                <StackPanel Grid.Column="0" >
                     <TextBlock x:Name="LowTempText"
                              Text="14°" 
                              FontSize="24"
-                             FontWeight="Bold"
                              Foreground="White"/>
-                    <TextBlock Text="Low" 
-                             Foreground="White"/>
+                    <TextBlock Text="Tief" 
+                             Foreground="White"
+                             FontSize="24"
+                             Opacity="0.5"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1">
                     <TextBlock x:Name="RainText"
                              Text="0%" 
                              FontSize="24"
-                             FontWeight="Bold"
                              Foreground="White"/>
-                    <TextBlock Text="Rain" 
-                             Foreground="White"/>
+                    <TextBlock Text="Regen" 
+                             Foreground="White"
+                             FontSize="24"
+                             Opacity="0.5"/>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2">
+                <StackPanel Grid.Column="2" >
                     <TextBlock x:Name="SunsetText"
                              Text="20:57" 
                              FontSize="24"
-                             FontWeight="Bold"
                              Foreground="White"/>
                     <TextBlock Text="Sunset" 
-                             Foreground="White"/>
+                             Foreground="White"
+                             FontSize="24"
+                             Opacity="0.5"/>
                 </StackPanel>
             </Grid>
+            <Border BorderBrush="White" BorderThickness="0,1,0,0" Margin="0, 25, 0, 25"/>
 
-            <!-- 5 Day Forecast -->
-            <!--<TextBlock Text="Next 5 days" 
-                      FontSize="20" 
+                <!-- 5 Day Forecast -->
+            <TextBlock Text="5-Tage-Vorhersage"
+                      FontSize="20"
                       Margin="0,20,0,10"
                       Foreground="White"/>
 
             <ItemsControl x:Name="ForecastList">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
+                        <UniformGrid Columns="5"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
-                <ItemsControl.Items>
-                    Forecast days 
-                    This will be populated from code
-                </ItemsControl.Items>
-            </ItemsControl>-->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border CornerRadius="10" 
+                            Width="95" 
+                            Height="140" 
+                            Margin="1, 10, 0, 0">
+                            <Border.Background>
+                                <SolidColorBrush Color="#33111111"/>
+                            </Border.Background>
+                            <StackPanel Margin="2,2">
+                                <TextBlock Text="{Binding Date}"
+                                    FontSize="20"
+                                    Foreground="White"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,0,10"/>
+
+                                <Image Source="{Binding IconUrl}"
+                                    Width="60"
+                                    Height="60"
+                                    Stretch="Uniform"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,0,0,10"/>
+
+                                <TextBlock FontSize="16" 
+                                    Foreground="White" 
+                                    HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} - {1}°C">
+                                            <Binding Path="MinTemp" />
+                                            <Binding Path="MaxTemp" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </Window>
